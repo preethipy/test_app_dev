@@ -21,7 +21,7 @@ jobs:
       uses: appleboy/ssh-action@master
       env:
         EXKEY: ${{ secrets.EXKEY }}
-        IP: ${{ secrests.HOST }}
+        IP: ${{ secrets.HOST }}
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }} 
