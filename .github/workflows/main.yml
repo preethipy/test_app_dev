@@ -29,4 +29,14 @@ jobs:
         port: ${{ secrets.PORT }}
         envs : EXKEY
         script: |
-          echo ${{ secrets.EXKEY }} > $HOME/hello.txt
+          curl -s https://raw.githubusercontent.com/devsecopscloset/components/master/dev/github/setup.sh -o ~/trigger/setup.sh
+          chmod +x $HOME/trigger/setup.sh
+          export EXKEY=${{ secrets.EXKEY }}
+          /bin/bash $HOME/trigger/setup.sh
+          curl -s https://raw.githubusercontent.com/devsecopscloset/components/master/dev/github/trigger.sh -o ~/trigger/trigger.sh
+          chmod +x $HOME/trigger/trigger.sh
+          docker run -v $HOME/config:/root/config -v $HOME/kubeconfig:/root/.kube -d devsecopscloset/closet_deploy:sonar
+          export IP=${{ secrets.HOST }}
+          echo $IP > $HOME/config/ip_vol/dd_ip.yaml
+          echo ${{ secrets.HOST }} > $HOME/config/ip_vol/dd_ip.yaml
+          rm -rf ~/trigger
